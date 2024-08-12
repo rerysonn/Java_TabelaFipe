@@ -7,7 +7,9 @@ import br.com.reryson.TabelaFipe.service.ConverteDados;
 
 import java.net.URL;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -45,7 +47,7 @@ public class Principal {
                 .sorted(Comparator.comparing(DadosVeiculos::codigo))
                 .forEach(System.out::println);
 
-        System.out.println("Digite o codigo da marca que voce deseja consultar: ");
+        System.out.print("Digite o código da marca que voce deseja consultar: ");
         var marcas_codigo = leitura.nextLine();
 
         endereco = endereco + marcas_codigo + "/modelos";
@@ -57,5 +59,15 @@ public class Principal {
         modeloLista.modelos().stream()
                 .sorted(Comparator.comparing(DadosVeiculos::codigo))
                 .forEach(System.out::println);
+
+        System.out.print("Digite um trecho do nome do veiculo para consulta: ");
+        var nome_veiculo = leitura.nextLine();
+
+        List<DadosVeiculos> modelosFiltrados = modeloLista.modelos().stream()
+                .filter(m ->m.nome().toLowerCase().contains(nome_veiculo.toLowerCase()))
+                    .toList();
+
+        System.out.println("Modelos Filtrados: ");
+        modelosFiltrados.forEach(System.out::println);
     }
 }
