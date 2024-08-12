@@ -1,6 +1,7 @@
 package br.com.reryson.TabelaFipe.principal;
 
 import br.com.reryson.TabelaFipe.model.DadosVeiculos;
+import br.com.reryson.TabelaFipe.model.Modelos;
 import br.com.reryson.TabelaFipe.service.ConsumoAPI;
 import br.com.reryson.TabelaFipe.service.ConverteDados;
 
@@ -41,6 +42,19 @@ public class Principal {
 
         var marcas = conversor.obterLista(json, DadosVeiculos.class);
         marcas.stream()
+                .sorted(Comparator.comparing(DadosVeiculos::codigo))
+                .forEach(System.out::println);
+
+        System.out.println("Digite o codigo da marca que voce deseja consultar: ");
+        var marcas_codigo = leitura.nextLine();
+
+        endereco = endereco + marcas_codigo + "/modelos";
+        json = consumo.obterDados(endereco);
+
+        var modeloLista = conversor.obterDados(json, Modelos.class);
+
+        System.out.print("Modelos para esta marca: ");
+        modeloLista.modelos().stream()
                 .sorted(Comparator.comparing(DadosVeiculos::codigo))
                 .forEach(System.out::println);
     }
